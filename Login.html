@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="Src/TekaStyle.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    class TekaLogo extends HTMLElement
+    {
+        constructor() {
+            super(); // always call super() first in the constructor.
+            // ...
+        }
+
+        EmptyOrValue(input) {return input === null || input === undefined ? "" : input;}
+
+
+        connectedCallback() {
+            // ...
+
+
+
+            this.innerHTML = `<form>
+<p>Email</p>
+<input value="${this.EmptyOrValue(this.getAttribute('login-attribute'))}"/>
+<p>Password</p>
+<input type="password" value="${this.EmptyOrValue(this.getAttribute('password-attribute'))}"/>
+<button>Login</button>
+</form>`;
+        }
+
+        disconnectedCallback() {
+            // ...
+        }
+
+        static get observedAttributes() {
+            return ['email-attribute', 'password-attribute', 'custom-attribute'];
+        }
+
+
+
+        attributeChangedCallback(name, oldValue, newValue) {
+
+        }
+    }
+
+    class Login extends HTMLElement
+    {
+        constructor() {
+            super(); // always call super() first in the constructor.
+            // ...
+        }
+
+        EmptyOrValue(input) {return input === null || input === undefined ? "" : input;}
+
+
+        connectedCallback() {
+            // ...
+
+
+
+            this.innerHTML = `<form>
+<p>Email</p>
+<input value="${this.EmptyOrValue(this.getAttribute('login-attribute'))}"/>
+<p>Password</p>
+<input type="password" value="${this.EmptyOrValue(this.getAttribute('password-attribute'))}"/>
+<button>Login</button>
+</form>`;
+        }
+
+        disconnectedCallback() {
+            // ...
+        }
+
+        static get observedAttributes() {
+            return ['email-attribute', 'password-attribute', 'custom-attribute'];
+        }
+
+
+
+        attributeChangedCallback(name, oldValue, newValue) {
+
+            let setTagValue = (tag, i, val) =>
+            {
+                var e = this.getElementsByTagName(tag);
+                var ei = e[i];
+                if(ei !== undefined)
+                    ei.value = this.EmptyOrValue(val);
+            }
+
+            switch (name)
+            {
+                case 'email-attribute':
+                    setTagValue("input", 0,newValue);
+                break;
+                case 'password-attribute':
+                    setTagValue("input", 1,newValue);
+                    break;
+                    case 'custom-attribute':
+
+                        var it = this.getElementsByTagName("input");
+                        for (let i = 0; i < it.length; i++)
+                            it[i].style.background = newValue;
+
+                        break;
+            }
+        }
+    }
+
+
+    customElements.define('login-element', Login);
+</script>
+
+<login-element name="testtttt" password-attribute="password"></login-element>
+<login-element></login-element>
+<script>
+    let i = -1, arr = ["red", "blue", "", "purple", "black"],
+        arr1 = ["red", "blue", "", "purple", "black"],
+        arr2 = ["red", "blue", "", "purple", "black"];
+    function buttonAction()
+    {
+        i = (i+1)%arr.length;
+        var runner = document.getElementsByName("testtttt")[0];
+        var cust = runner.getAttribute("custom-attribute");
+        runner.setAttribute("custom-attribute", arr[i]);
+        runner.setAttribute("email-attribute", arr1[i]);
+        runner.setAttribute("password-attribute", arr2[i]);
+        var position = runner.getAttribute("custom-attribute");
+    }
+</script>
+
+<button onclick="buttonAction()">Some button</button>
+</body>
+</html>
