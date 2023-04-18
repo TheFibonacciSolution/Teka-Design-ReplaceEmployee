@@ -1,5 +1,4 @@
-class TekaLogo extends HTMLElement
-{
+class TekaLogo extends HTMLElement {
     constructor() {
         super();
 
@@ -32,16 +31,16 @@ class TekaLogo extends HTMLElement
 
 
         const proc = () => {
-            lastClientWidth =  p.clientWidth;
-            this.setAttribute(`thickness`, lastClientWidth*.09);
+            lastClientWidth = p.clientWidth;
+            this.setAttribute(`thickness`, lastClientWidth * .02);
 
             const items = p.getElementsByClassName("item");
-            const size = (lastClientWidth /2);
-            const mult = 38/50;
+            const size = (lastClientWidth / 2);
+            const mult = 38 / 50;
             for (let i = 0; i < items.length; i++) {
 
                 let s = items[i].getElementsByTagName("span")[0].style;
-                s.fontSize =  `${size}px`;
+                s.fontSize = `${size}px`;
                 //s.lineHeight = s.height =  `${size*mult}px`;
             }
             //
@@ -55,10 +54,10 @@ class TekaLogo extends HTMLElement
         }
 
         proc();
-        const resize_ob = new ResizeObserver(function(entries) {
+        const resize_ob = new ResizeObserver(function (entries) {
             // since we are observing only a single element, so we access the first element in entries array
             console.log(entries[0]);
-            if(lastClientWidth ===  p.clientWidth)
+            if (lastClientWidth === p.clientWidth)
                 return;
             proc();
         });
@@ -76,10 +75,8 @@ class TekaLogo extends HTMLElement
     }
 
 
-
     attributeChangedCallback(name, oldValue, newValue) {
-        switch (name)
-        {
+        switch (name) {
             case `thickness`:
                 document.documentElement.style.setProperty(`--logo-border-width`, `${newValue}px`);
                 break;
@@ -87,14 +84,20 @@ class TekaLogo extends HTMLElement
     }
 }
 
-customElements.define('teka-logo-element',  TekaLogo);
+customElements.define('teka-logo-element', TekaLogo);
 
-class NavMenu extends HTMLElement
-{
-    constructor() { super(); }
+class NavMenu extends HTMLElement {
+    constructor() {
+        super();
+    }
 
     connectedCallback() {
-        this.innerHTML = ``;
+        this.innerHTML = `<div class="nav-bar">
+<nav-menu-item-element class="nav-bar-item" font-icon-class="fa fa-fw fa-search" title="Search"></nav-menu-item-element>
+<nav-menu-item-element  class="nav-bar-item" font-icon-class="fa fa-fw fa-home" title="Home"></nav-menu-item-element>
+<nav-menu-item-element  class="nav-bar-item" font-icon-class="fa fa-fw fa-user" title="Account"></nav-menu-item-element>
+<nav-menu-item-element  class="nav-bar-item" font-icon-class="fa fa-fw fa-envelope" title="Mail"></nav-menu-item-element>
+</div>`;
 
         // start observing for resize
         //resize_ob.observe(p);
@@ -109,21 +112,57 @@ class NavMenu extends HTMLElement
     }
 }
 
-customElements.define('nav-menu-element',  NavMenu);
+customElements.define('nav-menu-element', NavMenu);
 
-class Login extends HTMLElement
-{
+class NavMenuItem extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        this.innerHTML = `<div ><i class="${this.getAttribute('font-icon-class')}"></i> ${this.getAttribute('title')}</div>`;
+
+        // start observing for resize
+        //resize_ob.observe(p);
+    }
+
+    disconnectedCallback() {
+
+    }
+
+    static get observedAttributes() {
+        return ['font-icon-class', 'title'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        const a = this.getElementsByTagName('a')[0],
+            fontAwesomeicon = a.getElementsByTagName('i')[0];
+        switch (name) {
+            case 'font-icon-class':
+                fontAwesomeicon.className = newValue;
+                break;
+            case 'title':
+                a.innerHeight = newValue;
+                break;
+        }
+    }
+}
+
+customElements.define('nav-menu-item-element', NavMenuItem);
+
+class Login extends HTMLElement {
     constructor() {
         super(); // always call super() first in the constructor.
         // ...
     }
 
-    EmptyOrValue(input) {return input === null || input === undefined ? "" : input;}
+    EmptyOrValue(input) {
+        return input === null || input === undefined ? "" : input;
+    }
 
 
     connectedCallback() {
         // ...
-
 
 
         this.innerHTML = `<form>
@@ -144,28 +183,25 @@ class Login extends HTMLElement
     }
 
 
-
     attributeChangedCallback(name, oldValue, newValue) {
 
-        let setTagValue = (tag, i, val) =>
-        {
-            var e = this.getElementsByTagName(tag);
-            var ei = e[i];
-            if(ei !== undefined)
+        let setTagValue = (tag, i, val) => {
+            const e = this.getElementsByTagName(tag),
+                ei = e[i];
+            if (ei !== undefined)
                 ei.value = this.EmptyOrValue(val);
         }
 
-        switch (name)
-        {
+        switch (name) {
             case 'email-attribute':
-                setTagValue("input", 0,newValue);
+                setTagValue("input", 0, newValue);
                 break;
             case 'password-attribute':
-                setTagValue("input", 1,newValue);
+                setTagValue("input", 1, newValue);
                 break;
             case 'custom-attribute':
 
-                var it = this.getElementsByTagName("input");
+                const it = this.getElementsByTagName("input");
                 for (let i = 0; i < it.length; i++)
                     it[i].style.background = newValue;
 

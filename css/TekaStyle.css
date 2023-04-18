@@ -1,13 +1,25 @@
 :root {
+    --base-color-d: #000000;
+    --base-color: #313131;
+    --base-color-l: #646464;
+    --alt-color-d: #cccccc;
+    --alt-color: #ffffff;
+    --alt-color-l: #ffffff;
+
+
+    --base-text-color: #ffffff;
+    --alt-text-color: #000000;
+
+
+
+
     --logo-border-width: 5px ;
 }
-
 
 body{
     margin: 0;
     padding: 0;
 }
-
 
 .main-container
 {
@@ -22,12 +34,37 @@ body{
 
 .nav-container
 {
-    background: red;
+    background: var(--base-color);
     height: 100%;
+    color: var(--base-text-color);
 
 }
 
+.nav-bar
+{
+    position: relative;
 
+}
+
+.nav-bar
+
+.nav-bar-item
+{
+    display: block;
+    float: contour;
+    margin:  0 1em 0  1em;
+    max-width: 80%;
+}
+
+.nav-bar-item div
+{
+    width: 100%;
+    padding: calc(1em * .5);
+    display: block;
+    background: var(--base-color-d);
+    border-radius: calc(1em * .3);
+    font-size: 1.5em;
+}
 
 .nav-logo
 {
@@ -45,7 +82,7 @@ body{
 
     margin: inherit;
     padding: inherit;
-    border-color: black;
+    border-color: var(--base-text-color);;
     border-width: var(--logo-border-width);
     border-style: solid;
 }
@@ -75,13 +112,13 @@ overflow: clip;
     display: inline-block;
     overflow: clip;
     font-family: sans-serif;
-    font-weight: 800;
+    font-weight: 600;
     margin: 0px;
     padding: 0px;
     position: relative;
     transform: translate(-50%, -50%);
     left: 50%;
-    top: 46%;
+    top: 50.75%;
 
 }
 
