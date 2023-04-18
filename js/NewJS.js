@@ -1,7 +1,6 @@
 class TekaLogo extends HTMLElement {
     constructor() {
         super();
-
     }
 
     connectedCallback() {
@@ -56,7 +55,6 @@ class TekaLogo extends HTMLElement {
         proc();
         const resize_ob = new ResizeObserver(function (entries) {
             // since we are observing only a single element, so we access the first element in entries array
-            console.log(entries[0]);
             if (lastClientWidth === p.clientWidth)
                 return;
             proc();
@@ -120,23 +118,53 @@ class NavMenuItem extends HTMLElement {
     }
 
     connectedCallback() {
-        this.innerHTML = `<div ><i class="${this.getAttribute('font-icon-class')}"></i> ${this.getAttribute('title')}</div>`;
+        this.innerHTML = `<div class="prevent-select"><i class="${this.getAttribute('font-icon-class')} no-mouse" ></i> <span class="no-mouse">${this.getAttribute('title')}</span></div>`;
 
-        // start observing for resize
-        //resize_ob.observe(p);
+        const div = this.getElementsByTagName("div")[0];
+        const span = div.getElementsByTagName("span")[0];
+
+        const isItIn = (parent, child) => {
+            const box1coords = parent.getBoundingClientRect();
+            const box2coords = child.getBoundingClientRect();
+            return box2coords.top < box1coords.top ||
+            box2coords.right > box1coords.right ||
+            box2coords.bottom > box1coords.bottom ||
+            box2coords.left < box1coords.left;
+        };
+
+
+        const proc = () => {
+            if (span.style.visibility == "") {
+                if (isItIn(div, span)) {
+                    span.style.visibility = "collapse";
+                    div.style.aspectRatio = "1";
+                }
+            } else {
+                if (!isItIn(div, span)) {
+                    span.style.visibility = "";
+                    div.style.aspectRatio = "";
+                }
+            }
+        }
+            const resize_ob = new ResizeObserver(proc);
+
+            // start observing for resize
+            resize_ob.observe(div);
+
     }
 
     disconnectedCallback() {
 
     }
-
     static get observedAttributes() {
         return ['font-icon-class', 'title'];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        const a = this.getElementsByTagName('a')[0],
-            fontAwesomeicon = a.getElementsByTagName('i')[0];
+        const a = this.getElementsByTagName('div')[0];
+        if(a === undefined)
+            return;
+        const fontAwesomeicon = a.getElementsByTagName('i')[0];
         switch (name) {
             case 'font-icon-class':
                 fontAwesomeicon.className = newValue;

@@ -1,10 +1,11 @@
 :root {
-    --base-color-d: #000000;
+    --base-color-d: #171717;
     --base-color: #313131;
-    --base-color-l: #646464;
-    --alt-color-d: #cccccc;
+    --base-color-l: #4a4a4a;
+    --alt-color-d: #e5e5e5;
     --alt-color: #ffffff;
     --alt-color-l: #ffffff;
+
 
 
     --base-text-color: #ffffff;
@@ -19,6 +20,18 @@
 body{
     margin: 0;
     padding: 0;
+}
+
+.prevent-select {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.no-mouse
+{
+    pointer-events: none;
+
 }
 
 .main-container
@@ -43,27 +56,52 @@ body{
 .nav-bar
 {
     position: relative;
-
+    /* max-width: 80%; */
+    /* transform: translate(-50%, 0%); */
+    /* left: 50%; */
+    margin: 0 30px 0 30px;
 }
-
-.nav-bar
 
 .nav-bar-item
 {
     display: block;
     float: contour;
-    margin:  0 1em 0  1em;
-    max-width: 80%;
+    /*visibility:collapse;*/
+    /*margin:  0 1em 0  1em;*/
 }
 
 .nav-bar-item div
 {
-    width: 100%;
-    padding: calc(1em * .5);
-    display: block;
-    background: var(--base-color-d);
+    position: relative;
+    height: auto;
+    padding: 10px;
+    width:auto;
+    margin: 10px 0 0 0;
+    background: var(--base-color-l);
     border-radius: calc(1em * .3);
     font-size: 1.5em;
+    transition: 150ms;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.nav-bar-item div:hover
+{
+    background: var(--base-color);
+}
+
+.nav-bar-item div:active
+{
+    background: var(--base-color-d);
+}
+
+.nav-bar-item div span
+{
+    margin: 0 0 0 5px;
+    /* text-overflow: ellipsis; */
+    white-space: nowrap;
+    /* overflow: hidden; */
+    display: inline-block;
 }
 
 .nav-logo
@@ -71,8 +109,7 @@ body{
     aspect-ratio: 1;
     overflow:clip;
     min-width: 50px;
-    max-width: 250px;
-    margin: 10px;
+    margin: 30px;
 }
 
 .teka-logo-border
